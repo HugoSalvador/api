@@ -33,12 +33,16 @@ class UsersController {
 
         const database = await sqliteConnection();
         const user = await database.get("SELECT * FROM users WHERE id = (?)", [id]);
+        console.log(database);
+        
 
         if (!user) {
             throw new AppError("Usuário não encontrado");
         }
 
         const userWithUpdatedEmail = await database.get("SELECT * FROM users WHERE email = (?)", [email]);
+        
+        
 
         if(userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
             throw new AppError("Este e-mail já está em uso.");
